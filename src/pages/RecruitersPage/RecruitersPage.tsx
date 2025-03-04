@@ -105,7 +105,10 @@ const RecruitersPage = () => {
 		})
 
 		if (file) {
-			formData.append('img', file)
+			formData.append('img', file) // ✅ Добавляем файл
+			console.log('📂 Файл добавлен в formData:', file.name)
+		} else {
+			console.warn('⚠️ Файл не выбран!')
 		}
 
 		try {
@@ -117,10 +120,8 @@ const RecruitersPage = () => {
 			setIsModalOpen(false)
 			setTableKey(prev => prev + 1)
 		} catch (error) {
-			console.error('Error:', error)
-			toast.error(
-				error?.response?.data?.message || 'Не вдалося створити рекрутера'
-			)
+			console.error('❌ Ошибка запроса:', error.response?.data || error)
+			toast.error('Не вдалося створити рекрутера')
 		}
 	}
 

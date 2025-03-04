@@ -225,7 +225,11 @@ const CandidatesPage = () => {
 
 				<DynamicTable
 					key={tableKey}
-					url='/leads'
+					url={
+						localStorage.getItem('userRole') === 'admin'
+							? '/leads'
+							: `/leads/hr/${localStorage.getItem('userId')}`
+					}
 					excludeColumns={[
 						'_id',
 						'__v',

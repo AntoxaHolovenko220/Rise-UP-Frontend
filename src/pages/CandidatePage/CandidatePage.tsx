@@ -645,7 +645,6 @@ const CandidatePage = () => {
 							<Controller
 								name='city'
 								control={control}
-								rules={{ required: "Поле обов'язкове до заповнення" }}
 								defaultValue=''
 								render={({ field }) => (
 									<Autocomplete

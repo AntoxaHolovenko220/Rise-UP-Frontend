@@ -6,6 +6,7 @@ import { Box, Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { useAuthStore } from '@/store/authStore'
 
 const ParserBlock: React.FC = () => {
 	const [candidateUrl, setCandidateUrl] = useState('')
@@ -23,10 +24,17 @@ const ParserBlock: React.FC = () => {
 			password: localStorage.getItem('rabotaPassword'),
 		}
 
+		const token = localStorage.getItem('token')
+
 		try {
 			const { data } = await axiosInstance.post(
-				`/leads/rabota/create`,
-				responseData
+				'/leads/rabota/create',
+				responseData,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
 			)
 			toast.success('Кандидат успішно створений!')
 			console.log('Кандидат создан успешно', data)

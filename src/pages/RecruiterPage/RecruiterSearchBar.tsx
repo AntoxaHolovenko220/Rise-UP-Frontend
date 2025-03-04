@@ -48,16 +48,6 @@ const RecruiterSearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 					},
 				}} // Устанавливаем высоту в один уровень с кнопками
 			/>
-
-			{/* Кнопка поиска */}
-			<Button
-				variant='contained'
-				color='secondary'
-				sx={{ height: '56px', minWidth: '140px' }}
-				startIcon={<SearchIcon />} // Иконка "Поиск"
-			>
-				Пошук
-			</Button>
 		</Box>
 	)
 }

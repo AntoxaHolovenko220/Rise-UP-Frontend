@@ -126,36 +126,34 @@ const RecruiterPage = () => {
 	}
 
 	const onSubmit = async (data: any) => {
-		console.log('Form data:', data) // Логируем данные формы
-
-		if (data.whatsapp === '+') {
-			data.whatsapp = '' // Если только +, отправляем как пустое поле
-		}
-
 		const formData = new FormData()
-		// Добавляем поля
-		Object.entries(data).forEach(([key, value]) => {
-			if (value) formData.append(key, String(value))
-		})
-		// Добавляем файл
-		if (file) formData.append('img', file)
 
-		console.log('FormData:', formData)
+		Object.entries(data).forEach(([key, value]) => {
+			if (value !== null && value !== '') {
+				formData.append(key, String(value))
+			}
+		})
+
+		if (file) {
+			formData.append('img', file) // ✅ Добавляем файл
+			console.log('📂 Файл добавлен в formData:', file.name)
+		} else {
+			console.warn('⚠️ Файл не выбран!')
+		}
 
 		try {
-			const response = await axiosInstance.patch(`/users/${id}`, formData, {
+			await axiosInstance.patch(`/users/${id}`, formData, {
 				headers: { 'Content-Type': 'multipart/form-data' },
 			})
-			fetchRecruiter()
-			toast.success('Recruiter edited successfully!')
+
+			toast.success('Рекрутер успішно редагований!')
 			setIsModalOpen(false)
+			fetchRecruiter()
 		} catch (error) {
-			console.error('Error:', error)
-			toast.error(error?.response?.data?.message || 'Failed to edit recruiter')
+			console.error('❌ Ошибка запроса:', error.response?.data || error)
+			toast.error('Не вдалося редагувати рекрутера')
 		}
 	}
-
-	console.log(errors)
 
 	const fetchRecruiter = async () => {
 		try {
@@ -202,13 +200,12 @@ const RecruiterPage = () => {
 		return <Typography textAlign='center'>Recruiter not found</Typography>
 
 	const name = `${recruiter.firstname} ${recruiter.lastname} (${recruiter.nickname})`
-	const img = `http://localhost:8080${recruiter.img}`
-	console.log(recruiter._id)
+	// const img = `http://localhost:8080${recruiter.img}`
 
-	// const API_URL = 'https://api.workriseup.website'
-	// const img = recruiter.img.startsWith('/uploads/')
-	// 	? `${API_URL}${recruiter.img}`
-	// 	: `${API_URL}/uploads/${recruiter.img}`
+	const API_URL = 'https://api.workriseup.website'
+	const img = recruiter.img.startsWith('/uploads/')
+		? `${API_URL}${recruiter.img}`
+		: `${API_URL}/uploads/${recruiter.img}`
 
 	const handleInputChange =
 		(name, prefix = '', maxLength, inputType = 'digits') =>
@@ -330,9 +327,9 @@ const RecruiterPage = () => {
 				<CustomModal
 					open={isModalOpen}
 					onClose={handleCloseModal}
-					title='Edit Recruiter'
+					title='Редагувати рекрутера'
 					onConfirm={handleSubmit(onSubmit)}
-					confirmLabel='Edit'
+					confirmLabel='Редагувати'
 					width={700}
 				>
 					<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

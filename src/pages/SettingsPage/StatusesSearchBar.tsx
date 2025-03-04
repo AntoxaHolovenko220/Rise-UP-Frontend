@@ -33,16 +33,6 @@ const StatusesSearchBar: React.FC<SearchBarProps> = ({
 				sx={{ height: '56px' }} // Устанавливаем высоту в один уровень с кнопками
 			/>
 
-			{/* Кнопка поиска */}
-			<Button
-				variant='contained'
-				color='secondary'
-				sx={{ height: '56px', minWidth: '140px' }}
-				startIcon={<SearchIcon />} // Иконка "Поиск"
-			>
-				Пошук
-			</Button>
-
 			{/* Кнопка добавления рекрутера */}
 			<Button
 				variant='contained'
