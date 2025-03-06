@@ -62,11 +62,15 @@ const LoginPage = () => {
 			setUserRole(role)
 			localStorage.setItem('userRole', role)
 
-			toast.success('Login успішний!')
+			toast.success('Вхід успішний!')
 			navigate('/dashboard')
 		} catch (error: any) {
+			console.error(error) // Логирование для отладки
+
 			if (error.response?.status === 401) {
 				toast.error('Невірний логін або пароль!')
+			} else if (error.response?.status === 403) {
+				toast.error('Вхід заборонено! Ваш акаунт неактивний.')
 			} else {
 				toast.error('Помилка входу! Перевірте дані.')
 			}
